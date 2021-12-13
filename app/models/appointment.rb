@@ -3,8 +3,9 @@ class Appointment < ApplicationRecord
   validates :name, :surname, :phone, :date, presence: true
   validates :notes, length: { maximum: 50}
   validates :phone, numericality: { only_integer: true }
+  validates :date, uniqueness: {scope: :professional_id}
 
-  validate :valid_date, after_today?
+  validate :valid_date, :after_today?
 
   def valid_date
     if !(self.date.min == 0 || self.date.min == 30)
@@ -17,7 +18,6 @@ class Appointment < ApplicationRecord
       errors.add :date, 'La fecha no puede ser menor a hoy'
     end
   end
-
 
 end
 

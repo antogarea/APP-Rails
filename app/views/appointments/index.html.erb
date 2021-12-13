@@ -18,6 +18,7 @@
   <tbody>
     <% @appointments.each do |appointment| %>
       <tr>
+        <td><%= @professional %></td>
         <td><%= appointment.date %></td>
         <td><%= appointment.name %></td>
         <td><%= appointment.surname %></td>
@@ -25,12 +26,11 @@
         <td><%= appointment.notes %></td>
         <td><%= link_to 'Show', [@professional, appointment] %></td>
         <td><%= link_to 'Edit', edit_professional_appointment_path(@professional, appointment) %></td>
-        <td><%= link_to 'Cancel', [@professional, appointment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Cancel', [@professional, appointment], method: :delete, data: { confirm: 'Esta seguro de querer eliminar?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
 
 <%= link_to 'New Appointment', new_professional_appointment_path(@professional) %>

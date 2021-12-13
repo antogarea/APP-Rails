@@ -4,7 +4,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments or /appointments.json
   def index
-    @appointments = @professional.appointments
+    @appointments = @professional.appointments.order(:date)
   end
 
   # GET /appointments/1 or /appointments/1.json
@@ -22,11 +22,11 @@ class AppointmentsController < ApplicationController
 
   # POST /appointments or /appointments.json
   def create
-    @appointment = Appointment.new(appointment_params)
+    @appointment = @professional.appointments.new(appointment_params)
 
     respond_to do |format|
       if @appointment.save
-        format.html { redirect_to [@professional, @appointment], notice: "Appointment was successfully created." }
+        format.html { redirect_to [@professional, @appointment], notice: "Turno creado exitosamente" }
         format.json { render :show, status: :created, location: @appointment }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class AppointmentsController < ApplicationController
   def update
     respond_to do |format|
       if @appointment.update(appointment_params)
-        format.html { redirect_to [@professional, @appointment], notice: "Appointment was successfully updated." }
+        format.html { redirect_to [@professional, @appointment], notice: "Turno actualizado exitosamente." }
         format.json { render :show, status: :ok, location: @appointment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -57,6 +57,14 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def cancel_all
+    @professional.cancel_all
+    respond_to do |format|
+      format.html { redirect_to professional_appointments_path(@professional), notice: "Appointments were successfully cancelled." }
+      format.json { head :no_content }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_appointment
@@ -65,7 +73,7 @@ class AppointmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def appointment_params
-      params.require(:appointment).permit(:professional_id, :date, :name, :surname, :phone, :notes)
+      params.require(:appointment).permit(:date, :name, :surname, :phone, :notes)
     end
 
    def set_professional

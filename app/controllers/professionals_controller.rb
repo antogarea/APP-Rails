@@ -3,7 +3,7 @@ class ProfessionalsController < ApplicationController
 
   # GET /professionals or /professionals.json
   def index
-    @professionals = Professional.all
+    @professionals = Professional.order(:name)
   end
 
   # GET /professionals/1 or /professionals/1.json
@@ -50,10 +50,12 @@ class ProfessionalsController < ApplicationController
   # DELETE /professionals/1 or /professionals/1.json
   def destroy
     @professional.destroy
-    respond_to do |format|
-      format.html { redirect_to professionals_url, notice: "Professional was successfully destroyed." }
-      format.json { head :no_content }
+    if @professional.destroy
+      message = "Profesional eliminado con exito"
+    else
+      message = @professional.errors.full_messages.to_sentence
     end
+    redirect_to professionals_url, notice: message
   end
 
   private
