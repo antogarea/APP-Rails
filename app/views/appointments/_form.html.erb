@@ -11,10 +11,7 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :professional_id %>
-    <%= form.text_field :professional_id %>
-  </div>
+  <%= form.hidden_field :professional_id, :value => @professional.id %>
 
   <div class="field">
     <%= form.label :date %>

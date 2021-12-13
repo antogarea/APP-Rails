@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_230103) do
+ActiveRecord::Schema.define(version: 2021_12_13_135521) do
 
   create_table "appointments", force: :cascade do |t|
     t.integer "professional_id", null: false
