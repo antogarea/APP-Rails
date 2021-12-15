@@ -1,5 +1,4 @@
 class ProfessionalsController < ApplicationController
-  before_action :authenticate_user!
   load_and_authorize_resource
   before_action :set_professional, only: %i[ show edit update destroy ]
 
@@ -25,35 +24,26 @@ class ProfessionalsController < ApplicationController
   def create
     @professional = Professional.new(professional_params)
 
-    respond_to do |format|
-      if @professional.save
-        format.html { redirect_to @professional, notice: "Professional was successfully created." }
-        format.json { render :show, status: :created, location: @professional }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @professional.errors, status: :unprocessable_entity }
-      end
+    if @professional.save
+      redirect_to @professional, notice: "Professional was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /professionals/1 or /professionals/1.json
   def update
-    respond_to do |format|
-      if @professional.update(professional_params)
-        format.html { redirect_to @professional, notice: "Professional was successfully updated." }
-        format.json { render :show, status: :ok, location: @professional }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @professional.errors, status: :unprocessable_entity }
-      end
+    if @professional.update(professional_params)
+      redirect_to @professional, notice: "Professional was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /professionals/1 or /professionals/1.json
   def destroy
-    @professional.destroy
     if @professional.destroy
-      message = "Profesional eliminado con exito"
+      message = "Professional was successfully destroyed."
     else
       message = @professional.errors.full_messages.to_sentence
     end
@@ -61,13 +51,13 @@ class ProfessionalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_professional
-      @professional = Professional.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_professional
+    @professional = Professional.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def professional_params
-      params.require(:professional).permit(:name)
-    end
+  # Only allow a list of trusted parameters through.
+  def professional_params
+    params.require(:professional).permit(:name)
+  end
 end
