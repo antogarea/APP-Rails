@@ -25,6 +25,11 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+# Gema qu voy a utilizar para la autorizacion de los usuarios
+gem 'devise'
+# Gema que voy a utilizar para los permisos de los usuarios
+gem 'cancancan'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

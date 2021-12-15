@@ -1,4 +1,6 @@
 class AppointmentsController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource
   before_action :set_professional
   before_action :set_appointment, only: %i[ show edit update destroy ]
 

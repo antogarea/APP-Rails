@@ -6,5 +6,8 @@ class Professional < ApplicationRecord
     name
   end
 
+  def cancel_all
+    self.appointments.where("date > ?", DateTime.now).destroy_all
+  end
 
 end
