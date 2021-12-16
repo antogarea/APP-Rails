@@ -1,3 +1,17 @@
+
+
+User.create(email: 'consulta@ttps.com', password: '142536', role: 0)
+
+User.create(email: 'asistencia@ttps.com', password: '142536', role: 1)
+
+User.create(email: 'administracion@ttps.com', password: '142536', role: 2)
+
+
+Professional.create(name: 'Antonella ')
+Professional.create(name: 'Valeria')
+Professional.create(name: 'Carlos')
+
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
