@@ -1,5 +1,4 @@
 class AppointmentsController < ApplicationController
-  before_action :authenticate_user!
   load_and_authorize_resource
   before_action :set_professional
   before_action :set_appointment, only: %i[ show edit update destroy ]
@@ -28,43 +27,35 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
-        format.html { redirect_to [@professional, @appointment], notice: "Turno creado exitosamente" }
-        format.json { render :show, status: :created, location: @appointment }
+        redirect_to [@professional, @appointment], notice: "Appointment was successfully created."
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @appointment.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity
       end
     end
   end
 
   # PATCH/PUT /appointments/1 or /appointments/1.json
   def update
-    respond_to do |format|
-      if @appointment.update(appointment_params)
-        format.html { redirect_to [@professional, @appointment], notice: "Turno actualizado exitosamente." }
-        format.json { render :show, status: :ok, location: @appointment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @appointment.errors, status: :unprocessable_entity }
-      end
+    if @appointment.update(appointment_params)
+      redirect_to [@professional, @appointment], notice: "Appointment was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /appointments/1 or /appointments/1.json
   def destroy
-    @appointment.destroy
-    respond_to do |format|
-      format.html { redirect_to [@professional, @appointment], notice: "Appointment was successfully destroyed." }
-      format.json { head :no_content }
+    if @appointment.destroy
+      message = "Appointment was successfully cancelled."
+    else
+      message = @appointment.errors.full_messages.to_sentence
     end
+    redirect_to professional_appointments_path(@professional), notice: message
   end
 
   def cancel_all
     @professional.cancel_all
-    respond_to do |format|
-      format.html { redirect_to professional_appointments_path(@professional), notice: "Appointments were successfully cancelled." }
-      format.json { head :no_content }
-    end
+    redirect_to professional_appointments_path(@professional), notice: "Appointments successfully cancelled."
   end
 
   private

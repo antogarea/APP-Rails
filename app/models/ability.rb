@@ -10,9 +10,11 @@ class Ability
     elsif user.asistencia?
       can :manage, Appointment
       can :create, Professional
+      can :manage, Export
       can :read, :all
       cannot :read, User
     else
+      can :manage, Export
       can :read, :all
       cannot :read, User
     end

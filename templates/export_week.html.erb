@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <title><%= title %></title>
+  <meta charset="UTF-8">
+</head>
+<body style="background-color:#c8daf5">
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+      <title><%= title %></title>
+      <tr>
+        <th scope="col">HORA  /  DIA</th>
+        <% dates.each do |date| %>
+          <th scope="col"><%= date %></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% horas.each do |hora| %>
+        <tr>
+          <th scope="row"><%= hora %></th>
+          <% dates.each do |date| %>
+            <td>
+              <% appointments.each do |appoinment| %>
+                <% if appoinment.get_hour == hora && appoinment.get_date == date%>
+                  <p>Profesional: <%= appoinment.professional.name %> - Paciente: <%= appoinment.name %></p>
+                <% end %>
+              <% end %>
+              <td>
+          <% end %>
+            </tr>
+      <% end %>
+      </table>
+  </div>
+</div>
+</body>
+</html>
