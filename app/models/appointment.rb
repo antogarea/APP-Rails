@@ -19,5 +19,9 @@ class Appointment < ApplicationRecord
     end
   end
 
+  def get_hour
+    date.strftime("%H:%M")
+  end
+
 end
 

@@ -24,12 +24,10 @@
           <th scope="row"><%= hora %></th>
           <% dates.each do |date| %>
             <td>
-              <% appointments.each do |appoinment| %>
-                <% if appoinment.get_hour == hora && appoinment.get_date == date%>
+              <% appointments[date][hora].each do |appoinment| %>
                   <p>Profesional: <%= appoinment.professional.name %> - Paciente: <%= appoinment.name %></p>
-                <% end %>
               <% end %>
-              <td>
+              </td>
           <% end %>
             </tr>
       <% end %>

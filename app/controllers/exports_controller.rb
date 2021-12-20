@@ -9,14 +9,15 @@ class ExportsController < ApplicationController
   def export_appointments
     @export = Export.new(exports_params)
     if @export.valid?
+      exportAppointment = ExportAppointment.new()
       unless exports_params[:professional].blank?
         @professional = Professional.find(@export.professional)
       end
       if @export.type == "Dia"
-        exports.export_appointments_day(@export.date, @professional)
+        exportAppointment.export_appointments_day(@export.date, @professional)
         date = @export.date
       else
-        exports.export_appointments_week(@export.date, @professional)
+        exportAppointment.export_appointments_week(@export.date, @professional)
         date = @export.date.to_date.at_beginning_of_week
       end
       send_file(Rails.root.join("tmp/appointments_of_#{date}.html"))

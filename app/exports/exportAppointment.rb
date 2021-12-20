@@ -1,4 +1,5 @@
 class ExportAppointment
+
   def export_appointments_day(date, professional)
     date = Date.strptime(date, '%Y-%m-%d')
     title = "Turnos_del_dia_#{date}"
@@ -6,31 +7,49 @@ class ExportAppointment
       title = "Turnos_del_#{date}_para_#{professional.name}"
     end
     template = ERB.new(File.read(Rails.root.join("templates/export_day.html.erb")))
-    save_template(template, date, title, appointments_day(date, professional), self.horas())
+    save_template(template, date, title, appointment_day(date, professional), horas())
   end
 
-  def export_appointments_week(professional, date)
+  def export_appointments_week(date, professional)
+    date = Date.strptime(date, "%Y-%m-%d")
     date = first_day(date)
     title = "Turnos_de_la_semana#{date}"
     template = ERB.new(File.read(Rails.root.join("templates/export_week.html.erb")))
     save_template(template, date, title, appointments_week(date, professional), self.horas(), self.dates(date))
   end
 
-
-  def appointments_day(date, professional)
+  def appointments_week(date, professional)
     appointments = template(professional)
-    appointments = appointments.select { |appointment| appointment.date.to_date == date }
-    apposTemplate = {}
-    apposTemplate[date] = {}
-    self.horas.each do |hour|
-      apposTemplate[date][hour] = []
-      appointments.each do |appointment|
-        if date == appointment.date.to_date && hour == appointment.get_only_hour
-          apposTemplate[date][hour] << appointment
+    appointments = appointments.select { |appo| (date..date+6).cover? appo.date.to_date }
+    appos = {}
+    self.dates(date).each do |date|
+      appos[date] = {}
+      self.horas.each do |hour|
+        appos[date][hour] = []
+        appointments.each do |appointment|
+          if date == appointment.date.to_date && hour == appointment.get_hour
+            appos[date][hour] << appointment
+          end
         end
       end
     end
-    apposTemplate
+    return appos
+  end
+
+  def appointment_day(date, professional)
+    appointments = template(professional)
+    appointments = appointments.select { |appointment| appointment.date.to_date == date }
+    appos = {}
+    appos[date] = {}
+    self.horas.each do |hour|
+      appos[date][hour] = []
+      appointments.each do |appointment|
+        if date == appointment.date.to_date && hour == appointment.get_hour
+          appos[date][hour] << appointment
+        end
+      end
+    end
+    return appos
   end
 
   def template(professional)
@@ -75,10 +94,6 @@ class ExportAppointment
     date
   end
 
-  def appointments_week(date, professional)
-    appointments = template(professional)
-    appointments.select { |appoinment| (date..date+6).cover? appoinment.get_date }
-  end
 
   def save_template(template, date, title, appointments, horas, dates=nil)
     File.open(Rails.root.join("tmp/appointments_of_#{date}.html"), "w+") {|file| file.write("#{template.result binding}")}

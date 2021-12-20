@@ -21,10 +21,8 @@
         <tr>
           <th scope="row"><%= hora %></th>
           <td>
-            <% appointments.each do |appoinment| %>
-              <% if appoinment.get_hour == hora %>
-                <p>Profesional: <%= appoinment.professional.name %> - Paciente: <%= appoinment.name %></p>
-              <% end %>
+            <% appointments[date][hora].each do |appoinment| %>
+              <p>Profesional: <%= appoinment.professional.name %> - Paciente: <%= appoinment.name %></p>
             <% end %>
             <td>
             </tr>
