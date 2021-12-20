@@ -24,14 +24,11 @@ class AppointmentsController < ApplicationController
   # POST /appointments or /appointments.json
   def create
     @appointment = @professional.appointments.new(appointment_params)
-
-    respond_to do |format|
       if @appointment.save
         redirect_to [@professional, @appointment], notice: "Appointment was successfully created."
       else
         render :new, status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /appointments/1 or /appointments/1.json

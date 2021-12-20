@@ -1,10 +1,10 @@
 
 
-User.create(email: 'consulta@ttps.com', password: '142536', role: 0)
+User.create(email: 'consulta@ttps.com', password: '142536', role: :consulta)
 
-User.create(email: 'asistencia@ttps.com', password: '142536', role: 1)
+User.create(email: 'asistencia@ttps.com', password: '142536', role: :asistencia)
 
-User.create(email: 'administracion@ttps.com', password: '142536', role: 2)
+User.create(email: 'administracion@ttps.com', password: '142536', role: :administracion)
 
 
 Professional.create(name: 'Antonella ')
